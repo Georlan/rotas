@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Unit tests
+        run: npm run test
+
+      - name: Production build
+        run: npm run build
+
+      - name: Smoke-test npm run dev
+        shell: bash
+        run: |
+          npm run dev -- --port 4173 > /tmp/rotas-vite.log 2>&1 &
+          DEV_PID=$!
+
+          for attempt in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173/ > /dev/null; then
+              kill "$DEV_PID" || true
+              wait "$DEV_PID" 2>/dev/null || true
+              echo "Vite development server responded successfully."
+              exit 0
+            fi
+            sleep 1
+          done
+
+          cat /tmp/rotas-vite.log
+          kill "$DEV_PID" || true
+          exit 1
+
+      - name: Verify Cloudflare output
+        shell: bash
+        run: |
+          test -f dist/index.html
+          test -d dist/assets
+          echo "dist/ is ready for Cloudflare Pages."
