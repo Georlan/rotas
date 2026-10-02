@@ -99,7 +99,7 @@ export async function drawDeliveryRoute(
   const pending = deliveries.filter((delivery) => delivery.status !== 'completed')
 
   if (!restaurantAddress.trim() || pending.length === 0) {
-    renderer.setDirections({ routes: [], geocoded_waypoints: [], request: {} as google.maps.DirectionsRequest })
+    renderer.set('directions', null)
     return
   }
 
