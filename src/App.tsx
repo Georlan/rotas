@@ -244,26 +244,42 @@ export default function App() {
 
       <main className="page">
         <section className="hero">
-          <div>
+          <div className="hero-copy-block">
             <p className="eyebrow">ROTEAMENTO PARA RESTAURANTES</p>
-            <h1>Do CSV para a rua, na ordem certa.</h1>
+            <h1>Uma rota boa começa com uma ordem afiada.</h1>
             <p className="hero-copy">
-              Importe os pedidos, informe de onde o entregador sai e gere uma sequência
-              simples de entregas. Depois, abra o trajeto no Google Maps.
+              Importe os pedidos, organize a sequência e transforme uma lista solta em
+              um trajeto pronto para sair da cozinha e ganhar a rua.
             </p>
           </div>
-          <div className="hero-summary" aria-label="Resumo da rota">
-            <div>
-              <span>{deliveries.length}</span>
-              <small>entregas</small>
+
+          <div className="hero-side">
+            <div className="route-sculpture" aria-hidden="true">
+              <div className="pencil-line" />
+              <div className="sharpener-cap">
+                <span />
+              </div>
+              <div className="shaving shaving-1" />
+              <div className="shaving shaving-2" />
+              <div className="shaving shaving-3" />
+              <div className="shaving shaving-4" />
+              <div className="shaving shaving-5" />
+              <div className="route-tail" />
             </div>
-            <div>
-              <span>{pending.length}</span>
-              <small>pendentes</small>
-            </div>
-            <div>
-              <span>{completed}</span>
-              <small>concluídas</small>
+
+            <div className="hero-summary" aria-label="Resumo da rota">
+              <div>
+                <span>{deliveries.length}</span>
+                <small>entregas</small>
+              </div>
+              <div>
+                <span>{pending.length}</span>
+                <small>pendentes</small>
+              </div>
+              <div>
+                <span>{completed}</span>
+                <small>concluídas</small>
+              </div>
             </div>
           </div>
         </section>
